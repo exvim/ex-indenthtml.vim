@@ -28,6 +28,9 @@ if exists("b:did_indent")
 endif
 let b:did_indent = 1
 
+unlet b:did_indent
+exec "so " . expand("<sfile>:h") . "/../../vim-javascript/indent/javascript.vim"
+
 setlocal indentexpr=HtmlIndent()
 setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
 
@@ -360,7 +363,7 @@ func! s:Alien3() "{{{
 	return eval(s:js1indent)
     endif
     if b:indent.scripttype == "javascript"
-	return cindent(v:lnum)
+	return GetJavascriptIndent()
     else
 	return -1
     endif
@@ -377,7 +380,7 @@ endfunc
 func! s:CSSIndent() "{{{
     " adopted $VIMRUNTIME/indent/css.vim
     if getline(v:lnum) =~ '^\s*[*}]'
-	return cindent(v:lnum)
+	return GetJavascriptIndent()
     endif
     let minline = b:indent.blocklnr
     let pnum = s:css_prevnoncomment(v:lnum - 1, minline)
